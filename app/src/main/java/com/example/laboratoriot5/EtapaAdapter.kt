@@ -5,30 +5,46 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-
+import android.widget.ImageView
+import android.widget.TextView
 
 class EtapaAdapter(
     private val context: Context,
-    private val datasource: List<Etapa>,
-    private val layoutId: Int
+    private val listaEtapas: List<Etapa>
+
 ) : BaseAdapter() {
 
-    override fun getCount(): Int = datasource.size
 
-    override fun getItem(position: Int): Etapa = datasource[position]
+    override fun getCount(): Int {
+        return listaEtapas.size
+    }
 
-    override fun getItemId(position: Int): Long = position.toLong()
+    override fun getItem(p0: Int): Any {
+        return listaEtapas[p0]
+    }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view: View
+    override fun getItemId(p0: Int): Long {
+        return p0.toLong()
+    }
 
-        if (convertView == null) {
-            val inflater = LayoutInflater.from(context)
-            view = inflater.inflate(layoutId, parent, false)
-        } else {
-            view = convertView
-        }
-        val etapa = getItem(position)
-        return view
+    override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
+
+        val vista: View = p1 ?: LayoutInflater.from(context)
+            .inflate(R.layout.item_etapa, p2, false)
+
+        //Obtenemos el objeto Etapa de la posición actual (p0)
+        val etapa = listaEtapas[p0]
+
+        //Busca los componentes del XML
+        val imgEtapa: ImageView = vista.findViewById(R.id.imgEtapa)
+        val txtLocalizacion: TextView = vista.findViewById(R.id.txtLocalizacion)
+        val txtPeligrosidad: TextView = vista.findViewById(R.id.txtPeligrosidad)
+
+        //Asignamos datos
+        imgEtapa.setImageResource(etapa.imagen)
+        txtLocalizacion.text = etapa.localizacion
+        txtPeligrosidad.text = "Peligro: ${etapa.peligrosidad}"
+
+        return vista
     }
 }
