@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
+// Al elegir la opción "Inspeccionar Terreno" aparecerá el nombre de la etapa y el nivel de peligro
 class DetalleActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,7 +21,9 @@ class DetalleActivity : AppCompatActivity() {
             insets
         }
 
+        // Nombre de la etapa
         val nombre = intent.getStringExtra("EXTRA_LOC") ?: "Etapa desconocida"
+        // Nivel de peligro
         val peligro = intent.getStringExtra("EXTRA_PELIGRO") ?: "Desconocido"
 
         findViewById<TextView>(R.id.txtDetalleNombre).text = nombre

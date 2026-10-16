@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
 
+    // Lista que guarda todas las etapas de la misión
     private lateinit var listaEtapas: List<Etapa>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,10 +29,12 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        // Añade la opción para abandonar la misión en la barra superior
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         val opcionAbandonar = toolbar.menu.add("Abandonar Misión")
         opcionAbandonar.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
 
+        // Cierra todas las actividades de la aplicación al abandonar
         toolbar.setOnMenuItemClickListener { item ->
             if (item == opcionAbandonar) {
                 finishAffinity()
@@ -51,26 +54,32 @@ class MainActivity : AppCompatActivity() {
             Etapa(android.R.drawable.ic_dialog_alert, "El Monte del Destino", "Crítica")
         )
 
+        // Conecta la lista de etapas con el ListView para mostrarlas en pantalla
         val listView = findViewById<ListView>(R.id.ListView)
         val adapter = EtapaAdapter(this, listaEtapas)
         listView.adapter = adapter
 
+        // Permite abrir el menú contextual al mantener pulsada una etapa
         registerForContextMenu(listView)
     }
 
+    // Crea el menú que aparece al mantener pulsada una etapa
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         menu?.setHeaderTitle("Opciones de etapa")
         menu?.add(0, 1, 0, "Inspeccionar Terreno")
     }
 
+    // Controla qué ocurre al seleccionar una opción del menú contextual
     override fun onContextItemSelected(item: MenuItem): Boolean {
         val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
 
         return when (item.itemId) {
             1 -> {
+                // Obtiene la etapa que se ha seleccionado
                 val etapaSeleccionada = listaEtapas[info.position]
 
+                // Abre la pantalla de detalles y le pasa los datos de la etapa
                 val intent = Intent(this, DetalleActivity::class.java).apply {
                     putExtra("EXTRA_LOC", etapaSeleccionada.localizacion)
                     putExtra("EXTRA_PELIGRO", etapaSeleccionada.peligrosidad)
