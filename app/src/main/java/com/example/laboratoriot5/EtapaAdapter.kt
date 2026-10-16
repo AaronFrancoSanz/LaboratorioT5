@@ -32,15 +32,13 @@ class EtapaAdapter(
         val vista: View = p1 ?: LayoutInflater.from(context)
             .inflate(R.layout.item_etapa, p2, false)
 
-        //Obtenemos el objeto Etapa de la posición actual (p0)
         val etapa = listaEtapas[p0]
 
-        //Busca los componentes del XML
         val imgEtapa: ImageView = vista.findViewById(R.id.imgEtapa)
         val txtLocalizacion: TextView = vista.findViewById(R.id.txtLocalizacion)
         val txtPeligrosidad: TextView = vista.findViewById(R.id.txtPeligrosidad)
 
-        //Asignamos datos
+
         imgEtapa.setImageResource(etapa.imagen)
         txtLocalizacion.text = etapa.localizacion
         txtPeligrosidad.text = "Peligro: ${etapa.peligrosidad}"
